@@ -1,7 +1,7 @@
 # BOT Credentials
 API_ID = 20604892
 API_HASH = "a75d4dab1a2483a157d93e3ae9bf7500"
-BOT_TOKEN = "7951337417:AAHCWTuLk0TfgOD-Vs4CUsuxBtMyDibcU4M"
+BOT_TOKEN = "7146170095:AAHUSLQfrH-nYXg1iOB1kgsAi7BBqkVWtfk"
 
 MONGO_URI = "mongodb+srv://nitinkumardhundhara:DARKXSIDE78@cluster0.wdive.mongodb.net/?retryWrites=true&w=majority"
 MONGO_COLLECTION_NAME = "LuffyEncoder"
