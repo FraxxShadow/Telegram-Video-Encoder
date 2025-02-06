@@ -5,6 +5,20 @@ import queue  # Import the queue module
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from config import API_ID, API_HASH, BOT_TOKEN
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return 'Running', 200
+
+@app.route('/health')
+def health_check():
+    return 'OK', 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
 
 app = Client("advancedVideoEncoderBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
