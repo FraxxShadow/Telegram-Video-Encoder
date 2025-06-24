@@ -4,11 +4,14 @@ import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from config import API_ID, API_HASH, BOT_TOKEN
+import time
 
 app = Client("advancedVideoEncoderBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 DOWNLOAD_DIR = "./downloads/"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+
+last_update_time = 0
 
 # Global encoding settings
 resolution = "1920:1080"  
@@ -25,7 +28,7 @@ def encode_video(input_file, output_file, resolution):
         "-c:v", "libx265", "-crf", "27",
         "-vf", f"scale={resolution}",
         "-c:s", "copy", "-pix_fmt", "yuv420p",
-        "-b:v", "150k", "-c:a", "libopus", "-b:a", "50k",
+        "-c:a", "libopus", "-b:a", "72k",
         "-preset", "superfast", "-threads", "0",
         "-metadata", "title=GenAnimeOfc [t.me/GenAnimeOfc]",
         "-metadata:s:s", "title=[GenAnimeOfc]",
@@ -134,8 +137,14 @@ async def handle_video(client, message: Message):
     progress_msg = await message.reply("Downloading: 0%")
 
     async def download_progress(current, total, speed=None):
+        nonlocal last_update_time  # if inside an async def
+        now = time.time()
+        if now - last_update_time < 2.5:  # only update every 2.5 seconds
+            return
+
+        last_update_time = now
         percent = (current / total) * 100
-        speed_kbps = (speed / 1024) if speed else 0  # Convert speed to KB/s, handle None case
+        speed_kbps = (speed / 1024) if speed else 0
         text = f"Downloading: {percent:.1f}% ({current}/{total} bytes) at {speed_kbps:.1f} KB/s"
         try:
             await progress_msg.edit_text(text)
